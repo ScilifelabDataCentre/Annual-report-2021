@@ -6,8 +6,8 @@ import pandas as pd
 # information from KTH
 
 Pubs_JIF_raw = pd.read_excel(
-    "Data/XXXXXXXXXXXXXXXXXXXXXXX.xlsx",
-    sheet_name="XXXXXXXXXXXXXXXXXXXXXXX",
+    "Data/SciLifeLab-byaddress-20211217.xlsx",
+    sheet_name="publ_info",
     header=0,
     engine="openpyxl",
     keep_default_na=False,
@@ -15,8 +15,8 @@ Pubs_JIF_raw = pd.read_excel(
 
 # information for JIF scores
 JIF_scores_raw = pd.read_excel(
-    "Data/XXXXXXXXXXXXXXXXXXXXXXX.xlsx",
-    sheet_name="XXXXXXXXXXXXXXXXXXXXXXX",
+    "Data/JIF_scores_2021.xlsx",
+    sheet_name="Sheet 1 - JournalHomeGrid",
     header=0,
     engine="openpyxl",
     keep_default_na=False,

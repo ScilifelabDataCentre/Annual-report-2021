@@ -2,44 +2,44 @@ import pandas as pd
 import plotly.graph_objects as go
 import os
 
-# Fellows data prep
+# # Fellows data prep
 
-Fellows_data = pd.read_excel(
-    "Data/XXXXXXXXXXXXXXXXXXXXX.xlsx",
-    sheet_name="XXXXXXXXXXXXXXXFellows",
-    header=0,
-    engine="openpyxl",
-    keep_default_na=False,
-)
+# Fellows_data = pd.read_excel(
+#     "Data/XXXXXXXXXXXXXXXXXXXXX.xlsx",
+#     sheet_name="XXXXXXXXXXXXXXXFellows",
+#     header=0,
+#     engine="openpyxl",
+#     keep_default_na=False,
+# )
 
-# Last 5 years for fellows
-Fellows_data_sub = Fellows_data[
-    [
-        "citations_self_excl_2016",
-        "citations_self_excl_2017",
-        "citations_self_excl_2018",
-        "citations_self_excl_2019",
-        "citations_self_excl_2020",
-        "citations_self_excl_2021",
-    ]
-]
+# # Last 5 years for fellows
+# Fellows_data_sub = Fellows_data[
+#     [
+#         "citations_self_excl_2016",
+#         "citations_self_excl_2017",
+#         "citations_self_excl_2018",
+#         "citations_self_excl_2019",
+#         "citations_self_excl_2020",
+#         "citations_self_excl_2021",
+#     ]
+# ]
 
 
-Fellows_data_sum = Fellows_data_sub.sum(axis=0, skipna=True)
+# Fellows_data_sum = Fellows_data_sub.sum(axis=0, skipna=True)
 
-Fellows_data_group = Fellows_data_sum.to_frame(
-    name="sum_val",
-)
-Fellows_data_group["Citation_Year"] = Fellows_data_group.index
-Fellows_data_group.reset_index(drop=True, inplace=True)
-# print(Fellows_data_group)
+# Fellows_data_group = Fellows_data_sum.to_frame(
+#     name="sum_val",
+# )
+# Fellows_data_group["Citation_Year"] = Fellows_data_group.index
+# Fellows_data_group.reset_index(drop=True, inplace=True)
+# # print(Fellows_data_group)
 
 
 # Affiliates data prep
 
 Affiliates_data = pd.read_excel(
-    "Data/XXXXXXXXXXXXXXXXXXXX.xlsx",
-    sheet_name="XXXXXXXXXXXXXXXXXByaddress",
+    "Data/Updated_cite_data/SciLifeLab-byaddress-20211217.xlsx",
+    sheet_name="citations_per_year",
     header=0,
     engine="openpyxl",
     keep_default_na=False,
@@ -66,14 +66,14 @@ Affiliates_data_group = Affiliates_data_sum.to_frame(
 )
 Affiliates_data_group["Citation_Year"] = Affiliates_data_group.index
 Affiliates_data_group.reset_index(drop=True, inplace=True)
-# print(Affiliates_data_group)
+print(Affiliates_data_group)
 
 
 # Last 5 years for infrastructure
 
 Infra_data = pd.read_excel(
-    "Data/XXXXXXXXXXXXXXXXXXXXXX.xlsx",
-    sheet_name="XXXXXXXXXXXXXXXXXFacilities",
+    "Data/Updated_cite_data/SciLifeLab-facilities-20211217.xlsx",
+    sheet_name="citations_per_year",
     header=0,
     engine="openpyxl",
     keep_default_na=False,
@@ -99,6 +99,7 @@ Infra_data_group = Infra_data_sum.to_frame(
 )
 Infra_data_group["Citation_Year"] = Infra_data_group.index
 Infra_data_group.reset_index(drop=True, inplace=True)
+print(Infra_data_group)
 
 # Create graph function
 
@@ -174,4 +175,4 @@ def Citation_graph_func(input, pub_group):
 
 Citation_graph_func(Affiliates_data_group, "Affiliates")
 Citation_graph_func(Infra_data_group, "Infra")
-Citation_graph_func(Fellows_data_group, "Fellows")
+# Citation_graph_func(Fellows_data_group, "Fellows")

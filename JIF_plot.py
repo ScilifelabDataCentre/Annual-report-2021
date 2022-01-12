@@ -8,7 +8,7 @@ from colour_science_2021 import (
 )
 
 # facilities data
-from JIF_infra_data_prep import JIF_sub_group_fac
+from JIF_infra_data_prep import JIF_sub_group_inf
 
 # fellows data
 from JIF_fell_data_prep import JIF_sub_group_fell
@@ -158,6 +158,6 @@ def JIF_graph_func(input, name):
 
 # make plots by applying function
 
-JIF_graph_func(JIF_sub_group_inf, "infra")
-JIF_graph_func(JIF_sub_group_fell, "fellows")
+# JIF_graph_func(JIF_sub_group_inf, "infra")
+# JIF_graph_func(JIF_sub_group_fell, "fellows")
 JIF_graph_func(JIF_sub_group_aff, "affiliates")

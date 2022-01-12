@@ -8,8 +8,8 @@ import os
 # The benchmark values come separately from KTH
 
 benchmark = pd.read_excel(
-    "Data/XXXXXXXXXXXXXXXXXXXXXX.xlsx",
-    sheet_name="XXXXXXXXXXXXXXXXXXXXXX",
+    "Data/SciLifeLab_swe_benchmark.xlsx",
+    sheet_name="SciLifeLab_swe_benchmark",
     header=0,
     engine="openpyxl",
     keep_default_na=False,
@@ -18,8 +18,8 @@ benchmark = pd.read_excel(
 # The information for affiliates will come with their subjects and impact scores assigned
 
 affiliates = pd.read_excel(
-    "Data/XXXXXXXXXXXXXXXXXXXXXX.xlsx",
-    sheet_name="XXXXXXXXXXXXXXXXXXXXXX",
+    "Data/SciLifeLab_cf_subj_cat_byaddress-2.xlsx",
+    sheet_name="SciLifeLab_cf_subj_cat_byaddres",
     header=0,
     engine="openpyxl",
     keep_default_na=False,
@@ -28,8 +28,8 @@ affiliates = pd.read_excel(
 # The information for infrastructure units will come with their subjects and impact scores assigned
 
 infra = pd.read_excel(
-    "Data/XXXXXXXXXXXXXXXXXXXXXX.xlsx",
-    sheet_name="XXXXXXXXXXXXXXXXXXXXXX",
+    "Data/SciLifeLab_cf_subj_cat_facilities.xlsx",
+    sheet_name="SciLifeLab_cf_subj_cat_faciliti",
     header=0,
     engine="openpyxl",
     keep_default_na=False,
@@ -39,7 +39,11 @@ infra = pd.read_excel(
 # for 2021, this is 2016-2019
 
 benchmark_compare = benchmark[
-    ["Publication_year", "Subject_category", "Prop_Top10_scxwo_full", "cf_scxwo_full"]
+    [
+        "Publication_year",
+        "Subject_category",
+        "Prop_Top10_scxwo_full",
+    ]  # , "cf_scxwo_full"]
 ]
 benchmark_compare = benchmark_compare[
     (benchmark_compare["Publication_year"] == 2016)
@@ -54,7 +58,6 @@ bench_pp_fields = (
     .reset_index()
 )
 
-# We could use mncs, but since we want to measure excellence, we will focus on PP(top10)
 # Below function can be used to check
 
 # print(bench_pp_fields)
@@ -65,7 +68,7 @@ aff_sub = affiliates[
     [
         "Publication_year",
         "Subject_category",
-        "Cf_scxwo",
+        "Top10_scxwo",
         "Doc_type_code_rev",
     ]
 ]
@@ -77,13 +80,13 @@ aff_201619 = aff_sub[
 ]
 aff_201619 = aff_201619[
     (
-        aff_201619["Subject_category"] == "XXXXXXXXXX"
+        aff_201619["Subject_category"] == "BIOCHEMICAL RESEARCH METHODS"
     )  # add in the relevant 6 'top' fields
-    | (aff_201619["Subject_category"] == "XXXXXXXXXX")
-    | (aff_201619["Subject_category"] == "XXXXXXXXXX")
-    | (aff_201619["Subject_category"] == "XXXXXXXXXX")
-    | (aff_201619["Subject_category"] == "XXXXXXXXXX")
-    | (aff_201619["Subject_category"] == "XXXXXXXXXX")
+    | (aff_201619["Subject_category"] == "BIOCHEMISTRY & MOLECULAR BIOLOGY")
+    | (aff_201619["Subject_category"] == "BIOTECHNOLOGY & APPLIED MICROBIOLOGY")
+    | (aff_201619["Subject_category"] == "CELL BIOLOGY")
+    | (aff_201619["Subject_category"] == "GENETICS & HEREDITY")
+    | (aff_201619["Subject_category"] == "ONCOLOGY")
 ]
 
 # need to keep just the values for just the article types used in these calculations
@@ -94,16 +97,18 @@ aff_201619 = aff_201619[
     | (aff_201619["Doc_type_code_rev"] == "PP")
 ]
 
-aff_201518["Top10_scxwo"] = aff_201518["Top10_scxwo"].astype(float)
+aff_201619["Top10_scxwo"] = aff_201619["Top10_scxwo"].astype(float)
 
 aff_pp_fields = (
-    aff_201518.groupby("Subject_category")["Top10_scxwo"].mean().reset_index()
+    aff_201619.groupby("Subject_category")["Top10_scxwo"].mean().reset_index()
 )
 aff_pp_fields = aff_pp_fields.rename(
     columns={
         "Top10_scxwo": "aff_pp",
     }
 )
+
+# print(aff_pp_fields)
 
 # work out values for infrastructure
 
@@ -121,13 +126,13 @@ inf_201619 = inf_sub[
 
 inf_201619 = inf_201619[
     (
-        inf_201619["Subject_category"] == "XXXXXXXXXXXXX"
+        inf_201619["Subject_category"] == "BIOCHEMICAL RESEARCH METHODS"
     )  # put in relevant subject categories
-    | (inf_201619["Subject_category"] == "XXXXXXXXXXXXX")
-    | (inf_201619["Subject_category"] == "XXXXXXXXXXXXX")
-    | (inf_201619["Subject_category"] == "XXXXXXXXXXXXX")
-    | (inf_201619["Subject_category"] == "XXXXXXXXXXXXX")
-    | (inf_201619["Subject_category"] == "XXXXXXXXXXXXX")
+    | (inf_201619["Subject_category"] == "BIOCHEMISTRY & MOLECULAR BIOLOGY")
+    | (inf_201619["Subject_category"] == "BIOTECHNOLOGY & APPLIED MICROBIOLOGY")
+    | (inf_201619["Subject_category"] == "CELL BIOLOGY")
+    | (inf_201619["Subject_category"] == "GENETICS & HEREDITY")
+    | (inf_201619["Subject_category"] == "ONCOLOGY")
 ]
 
 # filter for publication type
@@ -149,6 +154,7 @@ inf_pp_fields = inf_pp_fields.rename(
     }
 )
 
+# print(inf_pp_fields)
 
 comb_Bandaff = pd.merge(
     bench_pp_fields,
@@ -206,8 +212,29 @@ fig.update_layout(
     # legend_title_text=" ",
     showlegend=False,
 )
+
 # modify x-axis
-fig.update_xaxes(title=" ", showgrid=True, linecolor="black")
+fig.update_xaxes(
+    title=" ",
+    tickvals=[
+        "BIOCHEMICAL RESEARCH METHODS",
+        "BIOCHEMISTRY & MOLECULAR BIOLOGY",
+        "BIOTECHNOLOGY & APPLIED MICROBIOLOGY",
+        "CELL BIOLOGY",
+        "GENETICS & HEREDITY",
+        "ONCOLOGY",
+    ],
+    ticktext=[
+        "Biokemiska forskningsmetoder",
+        "Biokemi och molekylärbiologi",
+        "Bioteknologi och tillämpad mikrobiologi",
+        "Cellbiologi",
+        "Genetik och ärftlighet",
+        "Onkologi",
+    ],
+    showgrid=True,
+    linecolor="black",
+)
 # modify y-axis
 fig.update_yaxes(
     title=" ",
@@ -223,8 +250,8 @@ fig.update_yaxes(
 # fig.show()
 
 # use the below to save a finalised figure
-# if not os.path.isdir("Plots/"):
-#     os.mkdir("Plots/")
+if not os.path.isdir("Plots/"):
+    os.mkdir("Plots/")
 
-# fig.write_image("Plots/benchmark_1619_pptop10.svg")
-# fig.write_image("Plots/benchmark_1619_pptop10.png")
+fig.write_image("Plots/benchmark_1619_pptop10_swe.svg")
+fig.write_image("Plots/benchmark_1619_pptop10_swe.png")

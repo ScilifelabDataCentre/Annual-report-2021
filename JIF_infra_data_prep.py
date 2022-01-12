@@ -6,8 +6,8 @@ import pandas as pd
 # information from publication database
 
 Pubs_JIF_raw = pd.read_excel(
-    "Data/XXXXXXXXXXXXXXXXXXXXXXX.xlsx",
-    sheet_name="XXXXXXXXXXXXXXXXXXXXXXX",
+    "Data/Infra_pubs_13122021_1.xlsx",
+    sheet_name="Publications",
     header=0,
     engine="openpyxl",
     keep_default_na=False,
@@ -16,8 +16,8 @@ Pubs_JIF_raw = pd.read_excel(
 # information for JIF scores
 
 JIF_scores_raw = pd.read_excel(
-    "Data/XXXXXXXXXXXXXXXXXXXXXXX.xlsx",
-    sheet_name="XXXXXXXXXXXXXXXXXXXXXXX",
+    "Data/JIF_scores_2021.xlsx",
+    sheet_name="Sheet 1 - JournalHomeGrid",
     header=0,
     engine="openpyxl",
     keep_default_na=False,
@@ -171,7 +171,7 @@ JIF_merge_fullnames.rename(
     inplace=True,
 )
 
-JIF_merge_fullnames.to_excel("Check_me_manual_improve_inf.xlsx")
+JIF_merge_fullnames.to_excel("Check_me_manual_improve_inf_1.xlsx")
 
 # # segment up the JIFs to groups
 
@@ -195,4 +195,4 @@ JIF_sub_group_inf.columns = ["Year", "JIFcat", "Count"]
 
 
 # Use this to check that the sums are as expected given the original publication files
-JIF_sub_group_inf.to_excel("infra_JIF_groups.xlsx")
+JIF_sub_group_inf.to_excel("infra_JIF_groups_1.xlsx")
