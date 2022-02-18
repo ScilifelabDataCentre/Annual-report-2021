@@ -1,4 +1,4 @@
-# Chart will generate global pie chart looking at unique acadmic users by university
+# Chart will generate global pie chart looking at available FTE resources per user category
 
 # Note: need to trim out data from xlsx file
 import pandas as pd
