@@ -11,11 +11,10 @@ fac_map_input = pd.read_excel(
     engine="openpyxl",
     keep_default_na=False,
 )
-# fac_map_input["PDB label"] = fac_map_input["PDB label"].str.replace(
-#     r"\(.*\)", "", regex=True
-# )
-# commented out the above because it removed (DDD) from Drug discovery and development.
-# (DDD) must be included to convert the name in publications
+fac_map_input["PDB label"] = fac_map_input["PDB label"].str.replace(
+    r"\(.*\)", "", regex=True
+)
+# You need the above to make sure you don't get spaces in file names
 fac_map_input = fac_map_input[["Unit", "PDB label"]]
 fac_map_input = fac_map_input.replace("", np.nan)
 fac_map_input["PDB label"] = fac_map_input["PDB label"].fillna(fac_map_input["Unit"])
@@ -134,6 +133,7 @@ Unit_data.rename(
         "Cost salaries": "UF_sal",
         "Cost rents": "UF_rent",
         "Cost other": "UF_other",
+        "SciLifeLab Instrument Funding 2021": "SLL_Instr_fund",  # This is new for 2021, need to integrate in
         "User fees by sector 2021 Academia (national)": "UF_sect_nat",
         "User fees by sector 2021 Academia (international)": "UF_sect_int",
         "User fees by sector 2021 Industry": "UF_sect_ind",
@@ -149,7 +149,7 @@ Unit_data.rename(
 # Need to add SLL funding to other funding data and get a total
 
 other_funding = pd.read_excel(
-    "Data/Other Funding 2021.xlsx",
+    "Data/Other Funding 2021_mod.xlsx",
     sheet_name="Sheet1",
     header=0,
     engine="openpyxl",
@@ -162,13 +162,25 @@ other_funding = pd.read_excel(
 SLL_funding = Unit_data[["Unit", "Platform", "Amount (kSEK)"]]
 SLL_funding.insert(loc=2, column="Financier", value="SciLifeLab")
 
+# Need to add instrument funding for 2021 statistics
+
+instru_funding = Unit_data[["Unit", "Platform", "SLL_Instr_fund"]]
+instru_funding.insert(loc=2, column="Financier", value="SciLifeLab Instrument")
+instru_funding = instru_funding[instru_funding.SLL_Instr_fund != 0]
+instru_funding.rename(
+    columns={
+        "SLL_Instr_fund": "Amount (kSEK)",
+    },
+    inplace=True,
+)
+
 # need to drop 'platform no' column from other data baefore bringing these datasets together
 
 other_funding = other_funding[["Unit", "Platform", "Financier", "Amount (kSEK)"]]
 
 # now concatenate this with other funding
 # also calculate total funding
-Funding_comb = pd.concat([SLL_funding, other_funding])
+Funding_comb = pd.concat([SLL_funding, instru_funding, other_funding])
 tot_fund = Funding_comb.groupby(["Unit"]).sum().reset_index()
 tot_fund.insert(loc=2, column="Financier", value="Total")
 Funding = pd.concat([Funding_comb, tot_fund])
@@ -189,7 +201,7 @@ Funding = pd.concat([Funding_comb, tot_fund])
 # Focus on data for (1) - extract individual labels for records from pub db
 
 Pubs_cat_raw = pd.read_excel(
-    "Data/infra_1921_singlelab_mod.xlsx",
+    "Data/infra_1921_singlelab_mod_2.xlsx",
     sheet_name="Publications",
     header=0,
     engine="openpyxl",
