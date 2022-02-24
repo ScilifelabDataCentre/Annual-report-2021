@@ -1,6 +1,10 @@
 # Annual Report 2021
 
-This repository contains the code required to perform the bibliometric analysis presented in the 2021 SciLifeLab annual report. The scripts will be categorised according to the plot that they relate to.
+This repository contains the code required to perform the bibliometric analysis presented in the 2021 SciLifeLab annual report (and a subfolder for scripts related to the infrastructure report in early 2022 for management). The scripts will be categorised according to the plot that they relate to.
+
+## Infra_2022_update
+
+This subfolder contains scripts related to the infrastructure report in early 2022 for management. See the readme file in this folder for details.
 
 ## Plot colour (multiple plots)
 
