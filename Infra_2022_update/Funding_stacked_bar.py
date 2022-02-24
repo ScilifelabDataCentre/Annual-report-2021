@@ -122,28 +122,28 @@ Other_fund = Funding_summed[(Funding_summed["Group_finance"] == "Other")]
 fig = go.Figure(
     data=[
         go.Bar(
-            name="SciLifeLab Instrument funding",
+            name="SciLifeLab Instrument funds",
             y=Instrument_fund.Unit,
             x=Instrument_fund.Mfunds,
             orientation="h",
             marker=dict(color=SCILIFE_COLOURS[4], line=dict(color="#000000", width=1)),
         ),
         go.Bar(
-            name="SciLifeLab funding",
+            name="SciLifeLab funds",
             y=SciLifeLab_fund.Unit,
             x=SciLifeLab_fund.Mfunds,
             orientation="h",
             marker=dict(color=SCILIFE_COLOURS[0], line=dict(color="#000000", width=1)),
         ),
         go.Bar(
-            name="University funding",
+            name="University funds",
             y=University_fund.Unit,
             x=University_fund.Mfunds,
             orientation="h",
             marker=dict(color=SCILIFE_COLOURS[12], line=dict(color="#000000", width=1)),
         ),
         go.Bar(
-            name="Other funding",
+            name="Other funds",
             y=Other_fund.Unit,
             x=Other_fund.Mfunds,
             orientation="h",
@@ -155,21 +155,22 @@ fig = go.Figure(
 fig.update_layout(
     barmode="stack",
     plot_bgcolor="white",
-    font=dict(size=33),
+    font=dict(size=40),
     autosize=False,
-    margin=dict(r=0, t=0, b=0, l=0),
+    margin=dict(r=0, t=50, b=0, l=50),
     width=3000,
-    height=2000,
+    height=2200,
     yaxis={"categoryorder": "total ascending"},
     showlegend=True,
     legend=dict(
+        itemwidth=30,
         traceorder="normal",
         orientation="h",
         yanchor="top",
         y=1.06,
-        xanchor="center",
-        x=0.5,
-        #        font=dict(size=37),
+        xanchor="left",
+        x=-0.3,
+        font=dict(size=55),
     ),
 )
 
@@ -189,8 +190,8 @@ fig.update_xaxes(
     showgrid=True,
     gridcolor="lightgrey",
     linecolor="black",
-    dtick=20,  # 10 will work fine with most values
-    range=[0, int(Funding_max * 1.05)],
+    dtick=10,  # 10 will work fine with most values
+    range=[0, int(Funding_max * 1.10)],
 )
 if not os.path.isdir("Plots"):
     os.mkdir("Plots")

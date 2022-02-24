@@ -41,6 +41,10 @@ FTEusercat_data["Category"] = FTEusercat_data["Category"].replace(
     "Industri",
     "Industry",
 )
+FTEusercat_data["Category"] = FTEusercat_data["Category"].replace(
+    "Other Governmental Agencies",
+    "Other Government Agencies",
+)
 
 fig = go.Figure(
     go.Pie(

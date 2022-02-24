@@ -42,10 +42,10 @@ Acaduser_data["Affiliation"] = Acaduser_data["Affiliation"].replace(
     "Swedish University of Agricultural Sciences",
     "Swedish University of <br>Agricultural Sciences",
 )
-Acaduser_data["Affiliation"] = Acaduser_data["Affiliation"].replace(
-    "Karolinska Institutet",
-    "Karolinska Institute",
-)
+# Acaduser_data["Affiliation"] = Acaduser_data["Affiliation"].replace(
+#     "Karolinska Institutet",
+#     "Karolinska Institute",
+# )
 Acaduser_data["Affiliation"] = Acaduser_data["Affiliation"].replace(
     "University of Gothenburg",
     "University of<br> Gothenburg",

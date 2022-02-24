@@ -39,11 +39,11 @@ fig = go.Figure(
 # fig.update_layout(xaxis=go.layout.XAxis(tickangle=45))
 fig.update_layout(
     plot_bgcolor="white",
-    font=dict(size=33),
+    font=dict(size=40),
     autosize=False,
     margin=dict(r=0, t=0, b=0, l=0),
     width=3000,
-    height=2000,
+    height=2200,
     yaxis={"categoryorder": "total ascending"},
 )
 

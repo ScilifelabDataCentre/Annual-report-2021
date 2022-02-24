@@ -136,14 +136,14 @@ def generatePdf(Unit_name, Unit_data, Funding, current_year):
             spaceBefore=20,
         )
     )
-    # The document is set up with two frames, one frame is one column, and their widths are set according to SciLifeLab design policy
+    # The document is set up with frames, each frame incorporates part of the page
     frame1 = Frame(
         doc.leftMargin,
         doc.bottomMargin + (doc.height / 2),
         doc.width / 3,  # - 3.5 * mm,
         (doc.height / 2) - 18 * mm,
         id="col1",
-        #        showBoundary=1, #this can be used to show where the frame sits - useful for setting up layout
+        # showBoundary=1,  # this can be used to show where the frame sits - useful for setting up layout
         leftPadding=0 * mm,
         topPadding=5 * mm,
         rightPadding=0 * mm,
@@ -155,7 +155,7 @@ def generatePdf(Unit_name, Unit_data, Funding, current_year):
         doc.width / 3,  # 2 - 3.5 * mm,
         (doc.height / 2) - 18 * mm,
         id="col2",
-        #        showBoundary=1,
+        #    showBoundary=1,
         leftPadding=0 * mm,
         topPadding=5 * mm,
         rightPadding=0 * mm,
@@ -219,7 +219,7 @@ def generatePdf(Unit_name, Unit_data, Funding, current_year):
         doc.width / 3,  # 2 - 3.5 * mm,
         (doc.height / 4),  # + 50 * mm,  # - 18 * mm,
         id="pic4",
-        #        showBoundary=1,
+        # showBoundary=1,
         leftPadding=0 * mm,
         topPadding=0 * mm,
         rightPadding=0 * mm,
@@ -237,13 +237,26 @@ def generatePdf(Unit_name, Unit_data, Funding, current_year):
         rightPadding=0 * mm,
         bottomPadding=0 * mm,
     )
-    header_content = Paragraph(
-        "<b>{}</b><br/><font name=Lato size=12> {} Platform</font>".format(
-            (Unit_data["Unit"]).to_string(index=False),
-            (Unit_data["Platform"]).to_string(index=False),
-        ),
-        styles["onepager_title"],
-    )
+    pd.options.display.max_colwidth = 600
+    if Unit_name == "Microbial Single Cell Genomics":
+        header_content = Paragraph(
+            "<b>{}</b><br/><font name=Lato size=12> {} Platform </font> <font name=Lato size=9> (</font><font name=Lato-B size=9>Web link for unit:</font><font name=Lato size=9 color='#4C979F'> <u><a href={}>Publications</a></u></font><font name=Lato size=9>)</font>".format(
+                (Unit_data["Unit"]).to_string(index=False),
+                (Unit_data["Platform"]).to_string(index=False),
+                (Unit_data["PDB"]).to_string(index=False),
+            ),
+            styles["onepager_title"],
+        )
+    else:
+        header_content = Paragraph(
+            "<b>{}</b><br/><font name=Lato size=12> {} Platform </font> <font name=Lato size=9> (</font><font name=Lato-B size=9>Web links for unit:</font> <font name=Lato size=9 color='#4C979F'><u><a href={}>Webpage</a></u></font><font name=Lato size=9 color='black'>,</font> <font name=Lato size=9 color='#4C979F'> <u><a href={}>Publications</a></u></font><font name=Lato size=9>)</font>".format(
+                (Unit_data["Unit"]).to_string(index=False),
+                (Unit_data["Platform"]).to_string(index=False),
+                (Unit_data["Webpage"]).to_string(index=False),
+                (Unit_data["PDB"]).to_string(index=False),
+            ),
+            styles["onepager_title"],
+        )
     template = PageTemplate(
         id="test",
         frames=[frame1, frame2, frame3, frame4, frame5, frame6, frame7, frame8],
@@ -258,7 +271,7 @@ def generatePdf(Unit_name, Unit_data, Funding, current_year):
     pd.options.display.max_colwidth = 600
     Story.append(
         Paragraph(
-            "<font color='#A7C947' name=Lato-B><b>Basic information</b></font>",
+            "<font color='#A7C947' name=Lato-B><b>Basic Information</b></font>",
             styles["onepager_inner_heading"],
         )
     )
@@ -455,7 +468,7 @@ def generatePdf(Unit_name, Unit_data, Funding, current_year):
     if total_percentage == 100:
         Story.append(
             Paragraph(
-                "<font color='#A7C947'><font name=Lato-B><b>Resource allocation {}</b></font></font>".format(
+                "<font color='#A7C947'><font name=Lato-B><b>Resource Allocation {}</b></font></font>".format(
                     current_year
                 ),
                 styles["onepager_inner_heading"],
@@ -642,6 +655,21 @@ def generatePdf(Unit_name, Unit_data, Funding, current_year):
             styles["onepager_text"],
         )
     )
+
+    # Story.append(
+    #     Paragraph(
+    #         "<font color='#A7C947'><font name=Lato-B><b>Weblinks {}</b></font></font>".format(
+    #             current_year
+    #         ),
+    #         styles["onepager_inner_heading"],
+    #     )
+    # )
+    # Story.append(
+    #     Paragraph(
+    #         "<font name=Lato-B></font><a href=https://www.scilifelab.se/units/glycoproteomics/>weblink</a>",
+    #         styles["onepager_text"],
+    #     )
+    # )
     Story.append(CondPageBreak(100 * mm))
     ### USER FEES BY SECTOR
     total_percentage = (
@@ -654,7 +682,7 @@ def generatePdf(Unit_name, Unit_data, Funding, current_year):
     if total_percentage == 100:
         Story.append(
             Paragraph(
-                "<font color='#A7C947'><font name=Lato-B><b>User fees by sector {}</b></font></font>".format(
+                "<font color='#A7C947'><font name=Lato-B><b>User Fees by Sector {}</b></font></font>".format(
                     current_year
                 ),
                 styles["onepager_inner_heading"],
@@ -774,7 +802,7 @@ def generatePdf(Unit_name, Unit_data, Funding, current_year):
     # pubs by cat first, then pubs by JIF
     Story.append(
         Paragraph(
-            "<font color='#A7C947' name=Lato-B><b>Publication by category</b></font>",
+            "<font color='#A7C947' name=Lato-B><b>Publication by Category</b></font>",
             styles["onepager_chart_heading"],
         )
     )
@@ -919,7 +947,7 @@ def generatePdf(Unit_name, Unit_data, Funding, current_year):
 # Recommend running the above initially, checking the pdfs and then using below to tweak individual ones
 
 # Note: not setting the year universally, because it might be that you're reporting for the current year, or the one before
-whonow = "Glycoproteomics"
+whonow = "Cryo-EM"
 current_year = 2021
 test_facs = Unit_data[(Unit_data["Unit"] == whonow)]
 test_fund = Funding[(Funding["Unit"] == whonow)]

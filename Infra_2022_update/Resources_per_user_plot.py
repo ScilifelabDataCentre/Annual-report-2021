@@ -39,14 +39,14 @@ fig = go.Figure(
             marker=dict(color=SCILIFE_COLOURS[8], line=dict(color="#000000", width=1)),
         ),
         go.Bar(
-            name="Academia International",
+            name="Academia Internat.",
             y=Res_user_cat.Unit,
             x=Res_user_cat.Acad_Int,
             orientation="h",
             marker=dict(color=SCILIFE_COLOURS[4], line=dict(color="#000000", width=1)),
         ),
         go.Bar(
-            name="Internal Technology Development",
+            name="Internal Tech. Dev.",
             y=Res_user_cat.Unit,
             x=Res_user_cat.Int_Techdev,
             orientation="h",
@@ -79,21 +79,21 @@ fig = go.Figure(
 fig.update_layout(
     barmode="stack",
     plot_bgcolor="white",
-    font=dict(size=33),
+    font=dict(size=35),
     autosize=False,
     margin=dict(r=0, t=0, b=0, l=0),
     width=3000,
-    height=2000,
-    yaxis={"categoryorder": "total descending"},
+    height=2200,
+    yaxis={"categoryorder": "total ascending"},
     showlegend=True,
     legend=dict(
         traceorder="normal",
         orientation="h",
         yanchor="top",
         y=1.06,
-        xanchor="center",
-        x=0.5,
-        font=dict(size=30),
+        xanchor="left",
+        x=-0.4,
+        font=dict(size=55),
     ),
 )
 
@@ -110,23 +110,33 @@ fig.update_xaxes(
     showgrid=True,
     gridcolor="lightgrey",
     linecolor="black",
-    ticktext=[
-        0,
-        20,
-        40,
-        60,
-        80,
-        100,
-    ],
-    tickvals=[
-        0,
-        20,
-        40,
-        60,
-        80,
-        100,
-    ],
-    dtick=20,  # 10 will work fine with most values
+    # ticktext=[
+    #     0,
+    #     10
+    #     20,
+    #     30,
+    #     40,
+    #     50,
+    #     60,
+    #     70,
+    #     80,
+    #     90,
+    #     100,
+    # ],
+    # tickvals=[
+    #     0,
+    #     10
+    #     20,
+    #     30,
+    #     40,
+    #     50,
+    #     60,
+    #     70,
+    #     80,
+    #     90,
+    #     100,
+    # ],
+    dtick=10,  # 10 will work fine with most values
     range=[0, 102],
 )
 if not os.path.isdir("Plots"):

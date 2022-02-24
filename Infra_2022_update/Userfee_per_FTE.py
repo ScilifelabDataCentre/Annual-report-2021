@@ -37,11 +37,11 @@ fig = go.Figure(
 # fig.update_layout(xaxis=go.layout.XAxis(tickangle=45))
 fig.update_layout(
     plot_bgcolor="white",
-    font=dict(size=33),
+    font=dict(size=40),
     autosize=False,
     margin=dict(r=0, t=0, b=0, l=0),
     width=3000,
-    height=2000,
+    height=2200,
     yaxis={"categoryorder": "total ascending"},
 )
 
@@ -61,7 +61,7 @@ fig.update_xaxes(
     gridcolor="lightgrey",
     linecolor="black",
     dtick=0.5,  # 10 will work fine with most values
-    range=[0, int(Userfee_FTE_max * 1.05)],
+    range=[0, int(Userfee_FTE_max * 1.1)],
 )
 if not os.path.isdir("Plots"):
     os.mkdir("Plots")
